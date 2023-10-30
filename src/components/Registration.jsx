@@ -17,7 +17,7 @@ function Registration() {
     if (!dob || calculateAge(dob) < 22)
       newErrors.dob = 'Age must be at least 22';
     if (selectedSpecialties.length === 0)
-      newErrors.specialties = 'At least one specialty is required';
+      newErrors.specialties = 'Add a specialty';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -60,11 +60,14 @@ function Registration() {
 
   return (
     <div>
-      <h2>Registration</h2>
-      <form className='form-container-in'>
+      <h2 className='main-title'>Registration</h2>
+      <form className='form-container-in needs-validatoin'>
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-
+        <div style={{display:'flex'}}>
+          {errors.name && <div className="error error-name">{errors.name}</div>}
+          {errors.email && <div className="error error-email">{errors.email}</div>}
+        </div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <input type="date" placeholder="Date of Birth" value={dob} onChange={(e) => setDob(e.target.value)} />
           
@@ -79,18 +82,18 @@ function Registration() {
               ))}
             </select>
         </div>
-        <ul>
+        <div style={{display:'flex'}}>
+          {errors.dob && <div className="error error-dob">{errors.dob}</div>}
+          {errors.specialties && <div className="error error-specialities">{errors.specialties}</div>}
+        </div>
+        <div>
           {selectedSpecialties.map((specialty) => (
             <li key={specialty}>
               {specialty}
               <button className='submit-button' style={{padding:"5px", fontWeight:"100",margin:"5px"}} onClick={() => removeSpecialty(specialty)}>Remove</button>
             </li>
           ))}
-        </ul>
-        {errors.name && <div className="error">{errors.name}</div>}
-        {errors.specialties && <div className="error">{errors.specialties}</div>}
-        {errors.email && <div className="error">{errors.email}</div>}
-        {errors.dob && <div className="error">{errors.dob}</div>}
+        </div>
         <button className='submit-button' onClick={handleRegistration}>Register</button>
       </form>
     </div>
